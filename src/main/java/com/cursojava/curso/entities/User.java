@@ -1,11 +1,19 @@
 package com.cursojava.curso.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serial;
 import java.io.Serializable; // para transformar em cadeias de bats -> obg pode trafegar na rede e guardados em arquivos
 
+@Entity
+@Table(name = "tb_user") // colocar outro nome para não dar conflito com a palavra do banco, nesse caso User
 public class User implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
+
+    @Id // chave primaria da tabela do banco de dados
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // por ser uma chave numérica, ela vai ser alto incremental na tabela
     private Long id;
     private String name;
     private String email;
