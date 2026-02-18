@@ -30,9 +30,12 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id")
     private User client; // client está sendo usado no @OneToMany(mappedBy = "client") -> classe Order
 
+    // set -> ele garante que não vai ter um produto com mais de uma categoria. Set é uma ‘interface’, não pode ser instanciado
+    // foi instanciada para não começar nula
     // associação um para um
-    // no OrderItem tem o id e o id tem o pedido
-    @OneToMany(mappedBy = "id.order")
+
+    // aqui tem uma coleção de orderItem
+    @OneToMany(mappedBy = "id.order") // id.order -> no OrderItem tem o atributo id e esse atributo do tipo OrderItemPK, e esse tipo OrderItemPK tem o order // id -> OrderItem e product -> OrderItemPK
     private Set<OrderItem> items =  new HashSet<>();
 
     public Order() {}

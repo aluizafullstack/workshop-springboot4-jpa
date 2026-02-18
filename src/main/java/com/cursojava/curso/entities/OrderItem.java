@@ -40,6 +40,8 @@ public class OrderItem implements Serializable {
         id.setOrder(order);
     }
 
+    //@JsonIgnore ->  não quero que ao buscar os produtos apareça os pedidos e sim buscar pedido e aparecer os itens do pedido e para cada item um produto -> ver Product getOders
+    // para não ter um loop, porque é aqui que se chama o pedido associado ao item de pedido
     public Product getProduct() {
         return id.getProduct();
     }

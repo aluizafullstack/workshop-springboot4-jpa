@@ -8,7 +8,6 @@ import jakarta.persistence.ManyToOne;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
 // Classe de associação não tem construtor
 @Embeddable // associação muitos para muitos de uma classe auxiliar
@@ -16,11 +15,11 @@ public class OrderItemPK implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne // associação com order
+    @JoinColumn(name = "order_id") // tem uma coleção de itens com a classeOrder -> id.order
     private Order order;
 
-    @ManyToOne
+    @ManyToOne // associação com product
     @JoinColumn(name = "product_id")
     private Product product;
 

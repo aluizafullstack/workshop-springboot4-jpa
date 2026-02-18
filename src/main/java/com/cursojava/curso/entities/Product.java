@@ -1,5 +1,6 @@
 package com.cursojava.curso.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -30,6 +31,14 @@ public class Product implements Serializable {
     // inverseJoinColumns -> outra chave
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    // set -> ele garante que não vai ter um produto com mais de uma categoria. Set é uma ‘interface’, não pode ser instanciado
+    // foi instanciada para não começar nula
+    // associação um para um
+
+    // aqui tem uma coleção de orderItem
+    @OneToMany(mappedBy = "id.product") // id.order -> no OrderItem tem o atributo id e esse atributo do tipo OrderItemPK, e esse tipo OrderItemPK tem o order // id -> OrderItem e product -> OrderItemPK
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {}
 
@@ -84,6 +93,16 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    // product com mais de um OrderItem, aonde será varrido para OrderItem e para cada OrderItem vai ser pegado a Order associado a ele
+    @JsonIgnore // para não ter um loop, porque é aqui que se chama o pedido associado ao item de pedido
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override
