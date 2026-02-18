@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable; // para transformar em cadeias de bats -> obg pode trafegar na rede e guardados em arquivos
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_user") // colocar outro nome para não dar conflito com a palavra do banco, nesse caso User
@@ -20,9 +22,11 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
-    public User() {
+    // associação um para um
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
-    }
+    public User() {}
 
     public User(Long id, String name, String email, String phone, String password) {
         this.id = id;
@@ -72,6 +76,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public List<Order> getOrders() {return orders;}
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -96,4 +102,5 @@ public class User implements Serializable {
             return false;
         return true;
     }
+
 }
