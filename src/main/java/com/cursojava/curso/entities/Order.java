@@ -1,5 +1,6 @@
 package com.cursojava.curso.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,6 +15,9 @@ public class Order implements Serializable {
     @Id // chave primaria da tabela do banco de dados
     @GeneratedValue(strategy = GenerationType.IDENTITY) // por ser uma chave numérica, ela vai ser alto incremental na tabela
     private Long id;
+
+    // formatação no Json
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'",timezone = "GMT")
     private Instant moment;
 
     // associação de muitos para um
