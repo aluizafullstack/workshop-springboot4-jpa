@@ -1,5 +1,6 @@
 package com.cursojava.curso.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -20,7 +21,10 @@ public class Category implements Serializable {
 
     // set -> ele garante que não vai ter um produto com mais de uma categoria. Set é uma ‘interface’, não pode ser instanciado
     // foi instanciada para não começar nula
-    @Transient // impede a interpretação do JPA
+    // @Transient -> impede a interpretação do JPA
+
+    @JsonIgnore // para não ter um loop
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     public Category() {}

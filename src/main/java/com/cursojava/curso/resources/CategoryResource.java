@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 // nomeando o recurso e o value informa o caminho
 @RequestMapping(value = "/categories")
-
 public class CategoryResource {
     @Autowired // o spring vai resolver essa dependência e associar a instância userRepository
     private CategoryService service;

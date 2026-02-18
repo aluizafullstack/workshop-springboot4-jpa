@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 // nomeando o recurso e o value informa o caminho
 @RequestMapping(value = "/orders")
-
 public class OrderResource {
     @Autowired // o spring vai resolver essa dependência e associar a instância userRepository
     private OrderService service;

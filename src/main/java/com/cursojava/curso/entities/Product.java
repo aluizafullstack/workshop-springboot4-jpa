@@ -23,7 +23,12 @@ public class Product implements Serializable {
 
     // set -> ele garante que não vai ter um produto com mais de uma categoria. Set é uma ‘interface’, não pode ser instanciado
     // foi instanciada para não começar nula
-    @Transient // impede a interpretação do JPA
+    // @Transient -> impede a interpretação do JPA
+    @ManyToMany() // Associação de muitos e muitos
+    // Nome da tabela e quais chaves seram associadas.
+    // JoinColmuns -> nome da chave
+    // inverseJoinColumns -> outra chave
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     public Product() {}
