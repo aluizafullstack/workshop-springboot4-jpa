@@ -24,7 +24,7 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore // para não ter um loop
-    // associação um para um
+    // associação um para um -> classe order
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

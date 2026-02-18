@@ -1,14 +1,8 @@
 package com.cursojava.curso.config;
 
-import com.cursojava.curso.entities.Category;
-import com.cursojava.curso.entities.Order;
-import com.cursojava.curso.entities.Product;
-import com.cursojava.curso.entities.User;
+import com.cursojava.curso.entities.*;
 import com.cursojava.curso.entities.enums.OrderStatus;
-import com.cursojava.curso.repositories.CategoryRepository;
-import com.cursojava.curso.repositories.OrderRepository;
-import com.cursojava.curso.repositories.ProductRepository;
-import com.cursojava.curso.repositories.UserRepository;
+import com.cursojava.curso.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +27,9 @@ public class TestConfig implements CommandLineRunner { // vai executar quando o 
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -71,6 +68,15 @@ public class TestConfig implements CommandLineRunner { // vai executar quando o 
         // para salvar uma lista de dados
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+        // associação de order ->  entre orderItem e product
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        // para salvar uma lista de dados com as associações
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
 
     }

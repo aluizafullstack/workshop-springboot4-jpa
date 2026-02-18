@@ -1,6 +1,7 @@
 package com.cursojava.curso.entities;
 
 import com.cursojava.curso.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -15,7 +16,8 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId // associação muitos para muitos de uma classe auxiliar
-    private OrderItemPK id;
+    // em classes auxiliares com o id composto é necessário instanciar
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private double price;
@@ -29,6 +31,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore // para não ter um loop, porque é aqui que se chama o pedido associado ao item de pedido
     public Order getOrder() {
         return id.getOrder();
     }
