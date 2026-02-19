@@ -78,6 +78,16 @@ public class TestConfig implements CommandLineRunner { // vai executar quando o 
         // para salvar uma lista de dados com as associações
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
+        // associação de payment ->  pedido 1 com pagamento 1
+        Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+
+        // realizando as associações
+        o1.setPayment(pay1);
+
+        orderRepository.save(o1);
+
+
+
 
     }
 }

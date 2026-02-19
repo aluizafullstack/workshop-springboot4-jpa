@@ -38,6 +38,11 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order") // id.order -> no OrderItem tem o atributo id e esse atributo do tipo OrderItemPK, e esse tipo OrderItemPK tem o order // id -> OrderItem e product -> OrderItemPK
     private Set<OrderItem> items =  new HashSet<>();
 
+    // (Sempre na classe independente) Associação um para um, aonde a classe Ordem é independente e a classe Payment é dependente, aonde mesmo que tenha zero pagamentos ele pode entrar no bando de dados de Order
+    // cascade = CascadeType.ALL -> vai ter o mesmo id, exemplo: pedido com cog. 5, o pagamento desse pedido tbm vai ter o cog. 5
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order() {}
 
     public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
@@ -79,6 +84,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems() {
