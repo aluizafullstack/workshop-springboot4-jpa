@@ -31,4 +31,18 @@ public class UserService {
     public void delete (Long id) {
         repository.deleteById(id);
     }
+
+    // getReferenceById -> esse metodo não vai diretamente no banco de dados, ele apenas prepara o obj para ser mexido e
+    // depois efetuar alguma operação no banco de dados
+    public User update(long id, User obj) {
+        User entity = repository.getReferenceById(id);
+        updateData(entity, obj);
+        return repository.save(entity);
+    }
+
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPhone(obj.getPhone());
+    }
 }
