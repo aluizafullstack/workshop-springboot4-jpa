@@ -1,5 +1,6 @@
 package com.cursojava.curso.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import javax.sound.midi.Instrument;
@@ -18,6 +19,7 @@ public class Payment implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne // (Sempre na classe dependente) Associação um para um, aonde a classe Ordem é independente e a classe Payment é dependente, aonde mesmo que tenha zero pagamentos ele pode entrar no bando de dados de Order
     @MapsId
     private Order order;
