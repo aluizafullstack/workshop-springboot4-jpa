@@ -2,8 +2,11 @@ package com.cursojava.curso.services;
 
 import com.cursojava.curso.entities.User;
 import com.cursojava.curso.repositories.UserRepository;
+import com.cursojava.curso.services.exceptions.DatabaseException;
 import com.cursojava.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component; // mesma coisa que o Service, mas como a classe é um serviço, será usada o @Service
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,14 @@ public class UserService {
     }
 
     public void delete (Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch(EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id); // printStackTrace -> vê o tipo de exeção que foi lançado na tela (console),
+            // não é mais possivel ver no Postmann, ai com isso foi colocado a exeção vista no catch
+        } catch(DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage()); // exeção de serviço
+        }
     }
 
     // getReferenceById -> esse metodo não vai diretamente no banco de dados, ele apenas prepara o obj para ser mexido e
