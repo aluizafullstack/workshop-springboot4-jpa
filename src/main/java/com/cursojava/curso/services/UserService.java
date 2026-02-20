@@ -2,6 +2,7 @@ package com.cursojava.curso.services;
 
 import com.cursojava.curso.entities.User;
 import com.cursojava.curso.repositories.UserRepository;
+import com.cursojava.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component; // mesma coisa que o Service, mas como a classe é um serviço, será usada o @Service
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class UserService {
     public User findById(Long id) {
         //Retorna um objeto opcional
         Optional<User> obj = repository.findById(id);
-        return obj.get(); // get: retorna um objeto do tipo User que estiver dentro do Optional
+        // orElseThrow: ele tenta dar o get, mas se não encontrar um usuario esse dá a exeção
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // get: retorna um objeto do tipo User que estiver dentro do Optional
     }
 
     public User insert(User obj) {
