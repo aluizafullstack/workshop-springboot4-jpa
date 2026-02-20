@@ -4,7 +4,9 @@ import com.cursojava.curso.entities.User;
 import com.cursojava.curso.repositories.UserRepository;
 import com.cursojava.curso.services.exceptions.DatabaseException;
 import com.cursojava.curso.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component; // mesma coisa que o Service, mas como a classe é um serviço, será usada o @Service
@@ -47,9 +49,13 @@ public class UserService {
     // getReferenceById -> esse metodo não vai diretamente no banco de dados, ele apenas prepara o obj para ser mexido e
     // depois efetuar alguma operação no banco de dados
     public User update(long id, User obj) {
-        User entity = repository.getReferenceById(id);
-        updateData(entity, obj);
-        return repository.save(entity);
+        try {
+            User entity = repository.getReferenceById(id);
+            updateData(entity, obj);
+            return repository.save(entity);
+        } catch(EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) {
